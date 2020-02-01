@@ -1,4 +1,4 @@
-new Vue({
+var vm1 = new Vue({
     el: '#app',
     data: {
         event: {
@@ -9,9 +9,6 @@ new Vue({
         },
         newNameText: '',
         guestName: [],
-        appStyles: {
-            marginTop: '25px'
-        },
         eventCapacity: 25,
         eventCapacityPercentage: 0
     },
@@ -22,9 +19,9 @@ new Vue({
                this.newNameText = ''
                this.eventCapacityPercentage = this.guestName.length / (this.eventCapacity / 100)
             }
-        },
-        methodCall: function() {
-            this.appStyles.marginTop = "50px"
+        },        
+        keyPressed: function() {
+            console.log('key pressed')
         }
     },
     computed: {
@@ -32,4 +29,32 @@ new Vue({
             return this.guestName.sort()
         }
     },
+    watch: {
+        guestName: function(data) {
+            console.log('triggered')
+        }
+    },
+    filters: {
+        formatName: function(value) {
+            return value.slice(0, 1).toUpperCase() + value.slice(1).toLowerCase()
+        }
+    }
 });
+
+var vm2 = new Vue({
+    el: "#navigation",
+    data: {
+        appName: "Guest List",
+        navLinks: [
+            {name: "Home", id: 1, url: "https://www.google.ie"},
+            {name: "Upcoming Events", id: 2, url: "https://www.google.com"},
+            {name: "Guest Benefits", id: 3, url: "https://www.google.de"},
+            {name: "Latest News", id: 4, url: "https://www.google.hr"},
+        ]
+    },
+    methods: {
+        capacityChanged: function() {
+            vm1.eventCapacity = 15
+        }
+    },
+})
